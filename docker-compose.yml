@@ -35,7 +35,7 @@ services:
     ports:
       - "8070:8070"
 
-  api_gateway:
+  api:
     image: kurushpondoxocrow/rsoi-api:1.0
     container_name: api
     restart: on-failure
