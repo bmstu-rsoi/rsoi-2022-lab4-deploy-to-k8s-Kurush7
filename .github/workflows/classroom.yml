@@ -50,6 +50,7 @@ jobs:
           kubectl get pods
 
           cd k8s
+          helm delete postgres && helm install postgres postgres-chart/
           helm delete services && helm install services ./services-chart
           sleep 45
 
