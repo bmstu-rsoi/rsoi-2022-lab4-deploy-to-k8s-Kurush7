@@ -28,23 +28,24 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: Build and publish images
-        timeout-minutes: 15
-        run: |
-          cd src
-          chmod +x build_docker.sh
-          ./build_docker.sh
+#      - name: Build and publish images
+#        timeout-minutes: 15
+#        run: |
+#          cd src
+#          chmod +x build_docker.sh
+#          ./build_docker.sh
 
       - name: Deploy
         run: |
-          echo kubectl config set-cluster rsoi-library-cluster --server="KUBER_HOST" --insecure-skip-tls-verify=true
-          kubectl config set-cluster rsoi-library-cluster --server="$KUBER_HOST" --insecure-skip-tls-verify=true
+          set -x
+          echo kubectl config set-cluster library-service-cluster --server="KUBER_HOST" --insecure-skip-tls-verify=true
+          kubectl config set-cluster library-service-cluster --server="$KUBER_HOST" --insecure-skip-tls-verify=true
 
           echo kubectl config set-credentials cloud_okteto_com-user --token=KUBER_TOKEN
           kubectl config set-credentials cloud_okteto_com-user --token="$KUBER_TOKEN"
 
-          echo kubectl config set-context default --cluster=rsoi-library-cluster --user=cloud_okteto_com-user --namespace=\"kurush7\"
-          kubectl config set-context default --cluster=rsoi-library-cluster --user=cloud_okteto_com-user --namespace="kurush7"
+          echo kubectl config set-context default --cluster=library-service-cluster --user=cloud_okteto_com-user --namespace=\"kurush7\"
+          kubectl config set-context default --cluster=library-service-cluster --user=cloud_okteto_com-user --namespace="kurush7"
 
           kubectl config use-context default
 
