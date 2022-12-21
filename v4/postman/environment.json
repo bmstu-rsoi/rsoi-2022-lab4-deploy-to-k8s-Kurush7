@@ -4,7 +4,7 @@
 	"values": [
 		{
 			"key": "baseUrl",
-			"value": "",
+			"value": "https://load-blancer-kurush7.cloud.okteto.net",
 			"enabled": true
 		}
 	],
