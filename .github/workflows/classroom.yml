@@ -50,10 +50,11 @@ jobs:
           kubectl get pods
 
           cd k8s
-          helm delete postgres && helm install postgres postgres-chart/
-          helm delete services && helm install services services-chart/
+          helm upgrade services ./services-chart
           sleep 45
 
+#helm delete postgres && helm install postgres postgres-chart/
+#          helm delete services && helm install services services-chart/
 #           cd k8s && helm upgrade services ./services-chart
 #echo kubectl get pods
 #kubectl get pods
