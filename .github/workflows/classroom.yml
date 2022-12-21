@@ -26,12 +26,12 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: Build and publish images
-        timeout-minutes: 15
-        run: |
-          cd src
-          chmod +x build_docker.sh
-          ./build_docker.sh
+#      - name: Build and publish images
+#        timeout-minutes: 15
+#        run: |
+#          cd src
+#          chmod +x build_docker.sh
+#          ./build_docker.sh
 
       - name: Deploy
         run: |
