@@ -49,11 +49,12 @@ jobs:
 
           kubectl config use-context default
 
-          echo kubectl get pods
-          kubectl get pods
 
           cd k8s && helm upgrade services ./services-chart
           sleep 45
+
+#echo kubectl get pods
+#kubectl get pods
 
       - name: Run API Tests
         uses: matt-ball/newman-action@master
