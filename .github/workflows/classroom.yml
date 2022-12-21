@@ -1,7 +1,11 @@
 name: GitHub Classroom Workflow
 on:
   push:
-    branches: [ master ]
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
 
 env:
   KUBER_HOST: ${{ secrets.KUBER_HOST }}
