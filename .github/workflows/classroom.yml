@@ -2,6 +2,11 @@ name: GitHub Classroom Workflow
 on:
   push:
     branches: [ master ]
+
+env:
+  KUBER_HOST: ${{ secrets.KUBER_HOST }}
+  KUBER_TOKEN: ${{ secrets.KUBER_TOKEN }}
+
 jobs:
   build:
     name: Autograding
@@ -13,13 +18,43 @@ jobs:
 
       - uses: docker/setup-buildx-action@v2
 
-      # TODO build, publish to docker hub, deploy to k8s
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Build and publish images
+        timeout-minutes: 15
+        run: |
+          cd src
+          chmod +x build_docker.sh
+          ./build_docker.sh
+
+      - name: Deploy
+        run: |
+          echo kubectl config set-cluster rsoi-library-cluster --server="KUBER_HOST" --insecure-skip-tls-verify=true
+          kubectl config set-cluster rsoi-library-cluster --server="$KUBER_HOST" --insecure-skip-tls-verify=true
+
+          echo kubectl config set-credentials cloud_okteto_com-user --token=KUBER_TOKEN
+          kubectl config set-credentials cloud_okteto_com-user --token="$KUBER_TOKEN"
+
+          echo kubectl config set-context default --cluster=rsoi-library-cluster --user=cloud_okteto_com-user --namespace=\"kurush7\"
+          kubectl config set-context default --cluster=rsoi-library-cluster --user=cloud_okteto_com-user --namespace="kurush7"
+
+          kubectl config use-context default
+
+          echo kubectl get pods
+          kubectl get pods
+
+          cd k8s && helm upgrade services ./services-chart
+          sleep 45
 
       - name: Run API Tests
         uses: matt-ball/newman-action@master
         with:
-          collection: <variant>/postman/collection.json
-          environment: <variant>/postman/environment.json
+          collection: v4/postman/collection.json
+          environment: v4/postman/environment.json
           delayRequest: 100
           reporters: '[ "cli" ]'
 
