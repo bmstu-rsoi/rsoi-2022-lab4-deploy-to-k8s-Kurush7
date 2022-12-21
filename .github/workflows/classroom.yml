@@ -51,7 +51,7 @@ jobs:
 
           cd k8s
 
-          helm update services ./services-chart
+          helm upgrade services ./services-chart
           sleep 45
 
 #        helm delete postgres && helm install postgres postgres-chart/
