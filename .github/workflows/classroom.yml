@@ -6,7 +6,7 @@ on:
 
 env:
   #KUBER_HOST: ${{ secrets.KUBER_HOST }}
-  KUBER_HOST: https://kurush7.cloud.okteto.net
+  KUBER_HOST: https://146.148.56.200:443
   KUBER_TOKEN: ${{ secrets.KUBER_TOKEN }}
 
 jobs:
