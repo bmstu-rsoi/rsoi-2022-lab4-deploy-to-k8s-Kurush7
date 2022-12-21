@@ -36,16 +36,18 @@ jobs:
       - name: Deploy
         run: |
           set -x
-          echo kubectl config set-cluster library-service-cluster --server="KUBER_HOST" --insecure-skip-tls-verify=true
-          kubectl config set-cluster library-service-cluster --server="$KUBER_HOST" --insecure-skip-tls-verify=true
+          echo kubectl config set-cluster rsoi --server="KUBER_HOST" --insecure-skip-tls-verify=true
+          kubectl config set-cluster rsoi --server="$KUBER_HOST" --insecure-skip-tls-verify=true
 
           echo kubectl config set-credentials cloud_okteto_com-user --token=KUBER_TOKEN
           kubectl config set-credentials cloud_okteto_com-user --token="$KUBER_TOKEN"
 
-          echo kubectl config set-context default --cluster=library-service-cluster --user=cloud_okteto_com-user --namespace=\"kurush7\"
-          kubectl config set-context default --cluster=library-service-cluster --user=cloud_okteto_com-user --namespace="kurush7"
+          echo kubectl config set-context default --cluster=rsoi --user=cloud_okteto_com-user --namespace=\"kurush7\"
+          kubectl config set-context default --cluster=rsoi --user=cloud_okteto_com-user --namespace="kurush7"
 
           kubectl config use-context default
+
+          kubectl get pods
 
           cd k8s
           helm delete postgres && helm install postgres postgres-chart/
