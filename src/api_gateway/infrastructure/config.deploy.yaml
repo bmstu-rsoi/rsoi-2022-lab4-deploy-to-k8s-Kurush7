@@ -11,15 +11,15 @@ app:
     file_level: info
 
 rating_service:
-  host: rating
+  host: rating-service
   port: 8050
 
 library_service:
-  host: library
+  host: library-service
   port: 8060
 
 reservation_service:
-  host: reservation
+  host: reservation-service
   port: 8070
 
 circuit_breaker:
