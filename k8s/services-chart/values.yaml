@@ -1,4 +1,4 @@
-bonus:
+rating:
   service:
     port: 8050
     image:
@@ -9,7 +9,7 @@ bonus:
       username: program
       password: test
 
-flight:
+library:
   service:
     port: 8060
     image:
@@ -20,7 +20,7 @@ flight:
       username: program
       password: test
 
-ticket:
+reservation:
   service:
     port: 8070
     image:
@@ -31,7 +31,7 @@ ticket:
       username: program
       password: test
 
-gateway:
+api:
   service:
     port: 8080
     image:
