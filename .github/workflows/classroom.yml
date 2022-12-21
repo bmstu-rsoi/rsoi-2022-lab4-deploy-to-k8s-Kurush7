@@ -5,8 +5,7 @@ on:
       - master
 
 env:
-  #KUBER_HOST: ${{ secrets.KUBER_HOST }}
-  KUBER_HOST: https://146.148.56.200:443
+  KUBER_HOST: ${{ secrets.KUBER_HOST }}
   KUBER_TOKEN: ${{ secrets.KUBER_TOKEN }}
 
 jobs:
@@ -26,42 +25,25 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-#      - name: Build and publish images
-#        timeout-minutes: 15
-#        run: |
-#          cd src
-#          chmod +x build_docker.sh
-#          ./build_docker.sh
+      - name: Build and publish images
+        timeout-minutes: 15
+        run: |
+          cd src
+          chmod +x build_docker.sh
+          ./build_docker.sh
 
       - name: Deploy
         run: |
           set -x
-          echo kubectl config set-cluster rsoi --server="KUBER_HOST" --insecure-skip-tls-verify=true
           kubectl config set-cluster rsoi --server="$KUBER_HOST" --insecure-skip-tls-verify=true
-
-          echo kubectl config set-credentials cloud_okteto_com-user --token=KUBER_TOKEN
           kubectl config set-credentials cloud_okteto_com-user --token="$KUBER_TOKEN"
-
-          echo kubectl config set-context default --cluster=rsoi --user=cloud_okteto_com-user --namespace=\"kurush7\"
           kubectl config set-context default --cluster=rsoi --user=cloud_okteto_com-user --namespace="kurush7"
-
           kubectl config use-context default
 
           kubectl get pods
-
           cd k8s
-
           helm upgrade services ./services-chart
           sleep 45
-
-#        helm delete postgres && helm install postgres postgres-chart/
-#          helm delete postgres && helm install postgres postgres-chart/
-#          helm delete services && helm install services ./services-chart
-#helm delete postgres && helm install postgres postgres-chart/
-#          helm delete services && helm install services services-chart/
-#           cd k8s && helm upgrade services ./services-chart
-#echo kubectl get pods
-#kubectl get pods
 
       - name: Run API Tests
         uses: matt-ball/newman-action@master
