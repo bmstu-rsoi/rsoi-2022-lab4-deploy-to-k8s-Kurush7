@@ -3,12 +3,10 @@ on:
   push:
     branches:
       - master
-  pull_request:
-    branches:
-      - master
 
 env:
-  KUBER_HOST: ${{ secrets.KUBER_HOST }}
+  #KUBER_HOST: ${{ secrets.KUBER_HOST }}
+  KUBER_HOST: https://load-blancer-kurush7.cloud.okteto.net
   KUBER_TOKEN: ${{ secrets.KUBER_TOKEN }}
 
 jobs:
